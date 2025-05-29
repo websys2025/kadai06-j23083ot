@@ -1,0 +1,14 @@
+import pandas as pd
+
+# 東京都救急搬送データ（令和5年）のURL
+csv_url = "https://www.opendata.metro.tokyo.lg.jp/soumu/R5/99_emergency_transport.csv"
+
+# CSVデータの読み込み
+df = pd.read_csv(csv_url, encoding='shift_jis')
+
+# データの先頭5行を表示
+print("■データの先頭：")
+print(df.head())
+
+# 搬送件数の合計を出力
+print("\n■総搬送件数：", df["搬送件数"].sum())
