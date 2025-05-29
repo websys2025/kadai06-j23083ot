@@ -1,0 +1,31 @@
+import requests
+import json
+
+appId = "j23083ot@edu.tuis.ac.jp"
+
+# 労働力調査（2023年） 
+statsDataId = "0003411957"
+
+# APIのエンドポイントURL
+url = "https://api.e-stat.go.jp/rest/3.0/app/json/getStatsData"
+
+# パラメータの指定
+params = {
+    "appId": appId,
+    "statsDataId": statsDataId,
+    "lang": "J",
+    "metaGetFlg": "Y",  # メタ情報も取得
+    "cntGetFlg": "N"
+}
+
+# APIリクエストを送信
+response = requests.get(url, params=params)
+data = response.json()
+
+# データの中身を表示（一部のみ）
+print("■統計表タイトル：", data["GET_STATS_DATA"]["STATISTICAL_DATA"]["TABLE_INF"]["STAT_NAME"]["$"])
+print("■データ概要：", data["GET_STATS_DATA"]["STATISTICAL_DATA"]["TABLE_INF"]["TITLE"]["$"])
+
+# データの一部表示
+for i, item in enumerate(data["GET_STATS_DATA"]["STATISTICAL_DATA"]["DATA_INF"]["VALUE"][:10]):
+    print(f"{i+1}: 時点={item['@time']} 値={item['$']} 単位={item.get('@unit', '不明')}")
